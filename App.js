@@ -1,50 +1,56 @@
-import React from 'react';
-import { StyleSheet, Text, View, Button, Image } from 'react-native';
+import React, { Component } from 'react';
+import {Text, View, Image, Button} from 'react-native';
+import { styles } from "./styles";
 
-export default function App() {
-  return (
-    <View style={styles.container}>
-      <Text style={styles.header}>Munchkin Counter</Text>
-      <Text>~{"\n"}</Text>
-      <Image
+class Welcome extends Component {
+
+  render() {
+    return (
+      <View style={{ alignItems: "center" }}>
+        <Text style={styles.header}>Munchkin Counter</Text>
+        <Text>{"\n"}</Text>
+        <Image
           style={{ maxHeight: 285, maxWidth: 200 }}
           source={require("./img/munchkin.jpg")}
         />
-        <Text>~{"\n"}</Text>
-      <Button 
-        title="start playing"
-        color="#841584"
-      />
-
-    </View>
-  );
+        <Text>{"\n"}</Text>
+      </View>
+    );
+  }
 }
 
-export const styles = StyleSheet.create({
-  container: {  
-    flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
-    backgroundColor: "black"
-  },
-  header: {
-    color: "lightblue",
-    fontSize: 30
-  },
-  text: {
-    color: "white",
-    fontSize: 20,
-    alignItems: "center",
-    justifyContent: "center",
-    textAlign: "center"
-  },
-  link: {
-    color: "lightblue",
-    textDecorationLine: "underline",
-    fontSize: 20
-  },
-  button: {
-    backgroundColor: "red",
-    color: "white"
+class Game extends Component {
+  render() {
+    return (
+      <View style={{ alignItems: "center" }}>
+        <Text style={styles.header}>Game</Text>
+      </View>
+    );
   }
-});
+}
+
+export default class App extends Component {
+
+  toggleGame = () => {
+    this.setState(prevState => ({isPlaying: !prevState.isPlaying }));
+  };
+
+  state = {isPlaying : true};
+
+  render() {
+    const isPlaying = this.state.isPlaying;
+    return (
+      <View style={styles.container}>
+        {isPlaying ? <Welcome/> : <Game/>}
+        <Button
+          title="start playing"
+          color="#841584"
+          onPress = {this.toggleGame}
+        />
+      </View>
+
+    );
+  }
+}
+
+
