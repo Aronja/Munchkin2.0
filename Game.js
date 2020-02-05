@@ -4,14 +4,10 @@ import React, {Component} from 'react';
 
 export default class Game extends Component {
 
-  showPlayer = () => {
-    this.setState(prevState => ({}));
-  };
-
   changeName = (name) => {
-    const playerName = this.state.players.name;
-    const playerPoints = this.state.players.points;
-    this.setState(prevState => ({playerName: name, playerPoints: 0}))
+    const players = {...this.state.players};
+    const newPlayer = {playerName: name, playerPoints: 0};
+    this.setState({ ...players, newPlayer });
   }
 
   state = {players: []};
@@ -20,11 +16,10 @@ export default class Game extends Component {
     const arePlayers = this.state.players;
     const playersNames = this.state.players.name;
     const playersPoints = this.state.players.points;
+    console.log(this.state.players);
     return (
       <View style={{alignItems: "center"}}>
         <Text style={styles.header}>Game</Text>
-        {arePlayers ?
-          <View>
             <TextInput
               style={{
                 height: 40,
@@ -35,21 +30,20 @@ export default class Game extends Component {
               }}
               placeholder="enter the player's name"
               onSubmitEditing={this.changeName}
-              value={this.state.name}
+              value={this.state.players.name}
             />
-            <Text style={styles.header}>{this.state.players["name"]} {this.state.players["points"]}</Text>
+        {this.state.players.map((player, index) =>
+         <View key={index}>
+          <Text>
+            { player.name } : { player.points}
+          </Text>
+         </View>
+        )}
             <Button
               title="add another player"
               color="#841584"
-              onPress={this.showPlayer}
+              onPress={this.addPlayer}
             />
-          </View>
-          : <Button
-            title="add your first player"
-            color="#841584"
-            onPress={this.showPlayer}
-          />
-        }
       </View>
     );
   }
